@@ -1,6 +1,7 @@
 alert('Conectado');
 
 var field;
+var player;
 
 class Field{
    constructor (cols, rows, containerId){
@@ -48,7 +49,33 @@ class Character{
         this.x = x;
         this.y = y;
         this.face = face;
-        this.setPosition(this.x, this.y);
+        if(!this.setPosition(this.x, this.y)){
+            throw Error();
+        }
+    }
+
+    up(){
+        if (this.y > 0) {
+            this.setPosition(this.x, this.y - 1)
+        }
+    }
+
+    down(){
+        if (this.y + 1 < this.table.rows) {
+            this.setPosition(this.x, this.y + 1)
+        }
+    }
+
+    left(){
+        if (this.x > 0) {
+            this.setPosition(this.x - 1, this.y)
+        }
+    }
+
+    right(){
+        if (this.x + 1 < this.table.cols) {
+            this.setPosition(this.x + 1, this.y)
+        }
     }
 
     setPosition(x, y){
@@ -58,10 +85,27 @@ class Character{
             this.y = y;
             this.table.field[this.y][this.x] = this.face;
             this.table.drawField();
+            return true;
         }
+        return false;
+    }
+}
+
+class Player extends Character{
+    constructor(field){
+        super(field, 0, 0, '-,-');
     }
 }
 
 // Forçando as entradas
-field = new Field(3, 4, '#myTable');
-new Character(field, 2, 1, '-,-');
+function startField(){
+    field = new Field(3, 4, '#myTable');
+    try {
+        player = new Player(field);
+    } catch (error) {
+        console.log('Starting game again...');
+        startField();        
+    }
+}
+
+startField();
