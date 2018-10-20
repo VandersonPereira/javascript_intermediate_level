@@ -1,7 +1,6 @@
 alert('Conectado');
 
-var field;
-var player;
+var field, player, npc;
 
 class Field{
    constructor (cols, rows, containerId){
@@ -114,19 +113,38 @@ class Npc extends Character{
             case 3: this.left(); break;
             case 4: this.right(); break;
         }
-
     }
 }
 
-// Forçando as entradas
 function startField(){
-    field = new Field(3, 4, '#myTable');
+    var cols = document.querySelector('#cols').value || 3,
+        rows = document.querySelector('#rows').value || 3;
+
+    document.querySelector('button').disabled = true;
+
+    field = new Field(cols, rows, '#myTable');
     try {
         player = new Player(field);
+        npc = new Npc(field);
     } catch (error) {
         console.log('Starting game again...');
         startField();        
     }
 }
 
-startField();
+// Recuperando as teclas A, W, D, S para movimentar o jogador
+window.addEventListener('keyup', function(event){
+    if(player){
+        const A = 65,
+            S = 83,
+            D = 68,
+            W = 87;
+
+        switch(event.keyCode){
+            case A: player.left(); break;
+            case S: player.down(); break;
+            case D: player.right(); break;
+            case W: player.up(); break;
+        }
+    }
+});
