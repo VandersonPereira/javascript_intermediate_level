@@ -1,6 +1,8 @@
-# Javascript Intermediate Level
+# Javascript Intermediário
 
-Algumas coisas que serão vistas nesse repositório:
+Um estudo simples sobre algumas funcionalidades do javascript.
+
+Aqui uma lista resumida do que será encontrado nos códigos:
 
 - Orientação a Objetos
 - Classes
